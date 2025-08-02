@@ -3,13 +3,12 @@
 import { cn } from "@/utils/lib";
 import React, { useEffect, useRef, useState } from "react";
 
-interface ModalProps {
+type ModalProps = {
   isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode;
-}
+};
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, children }) => {
   const [show, setShow] = useState(isOpen);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -17,26 +16,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     if (isOpen) {
       setShow(true);
     } else {
-      // Wait for animation before unmounting
       const timeout = setTimeout(() => setShow(false), 300);
       return () => clearTimeout(timeout);
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
-
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === overlayRef.current) {
-      onClose();
-    }
-  };
 
   if (!show) return null;
 
@@ -47,7 +30,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         "fixed inset-0 z-50 flex items-center justify-center bg-black/60 transition-opacity duration-300",
         isOpen ? "opacity-100" : "opacity-0",
       )}
-      onMouseDown={handleOverlayClick}
       aria-modal="true"
       role="dialog"
     >

@@ -16,8 +16,9 @@ import {
   Underline,
   Video,
 } from "lucide-react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Button } from "../ui/Button";
+import Toast from "../ui/Toast";
 
 type CreatePostProps = {
   postContent: string;
@@ -25,30 +26,32 @@ type CreatePostProps = {
   onSubmit: () => void;
 };
 
+const topBarIcons = [
+  { icon: <Bold size={16} />, title: "Bold", selected: true },
+  { icon: <Italic size={16} />, title: "Italic", selected: false },
+  { icon: <Underline size={16} />, title: "Underline", selected: false },
+  { icon: <List size={16} />, title: "Bullet List", selected: false },
+  {
+    icon: <ListOrdered size={16} />,
+    title: "Numbered List",
+    selected: false,
+  },
+  { icon: <Quote size={16} />, title: "Quote", selected: false },
+  { icon: <CodeXml size={16} />, title: "Code Block", selected: false },
+];
+
+const bottomBarIcons = [
+  { icon: <Plus size={16} />, title: "Attach", selected: true },
+  { icon: <Mic size={16} />, title: "Microphone", selected: false },
+  { icon: <Video size={16} />, title: "Camera", selected: false },
+];
+
 const CreatePost: FC<CreatePostProps> = ({
   postContent,
   setPostContent,
   onSubmit,
 }) => {
-  const topBarIcons = [
-    { icon: <Bold size={16} />, title: "Bold", selected: true },
-    { icon: <Italic size={16} />, title: "Italic", selected: false },
-    { icon: <Underline size={16} />, title: "Underline", selected: false },
-    { icon: <List size={16} />, title: "Bullet List", selected: false },
-    {
-      icon: <ListOrdered size={16} />,
-      title: "Numbered List",
-      selected: false,
-    },
-    { icon: <Quote size={16} />, title: "Quote", selected: false },
-    { icon: <CodeXml size={16} />, title: "Code Block", selected: false },
-  ];
-
-  const bottomBarIcons = [
-    { icon: <Plus size={16} />, title: "Attach", selected: true },
-    { icon: <Mic size={16} />, title: "Microphone", selected: false },
-    { icon: <Video size={16} />, title: "Camera", selected: false },
-  ];
+  const [toast, settoast] = useState(false);
 
   return (
     <div className="border rounded-lg p-2 bg-white w-full max-w-xl shadow-sm flex flex-col gap-2">
@@ -62,7 +65,12 @@ const CreatePost: FC<CreatePostProps> = ({
               key={index}
               className={cn(item.selected && "bg-white rounded-sm")}
             >
-              <Button title={item.title} size={"sm"} className="align-middle">
+              <Button
+                title={item.title}
+                size={"sm"}
+                className="align-middle"
+                onClick={() => settoast(true)}
+              >
                 {item.icon}
               </Button>
             </div>
@@ -89,7 +97,12 @@ const CreatePost: FC<CreatePostProps> = ({
               key={index}
               className={cn(item.selected && "bg-gray-200 rounded-sm")}
             >
-              <Button title={item.title} size={"sm"} className="align-middle">
+              <Button
+                title={item.title}
+                size={"sm"}
+                className="align-middle"
+                onClick={() => settoast(true)}
+              >
                 {item.icon}
               </Button>
             </div>
@@ -99,6 +112,13 @@ const CreatePost: FC<CreatePostProps> = ({
           <SendHorizontal className="text-blue-500" />
         </Button>
       </div>
+      {toast && (
+        <Toast
+          message="Functionality not available"
+          onClose={() => settoast(false)}
+          variant={"error"}
+        />
+      )}
     </div>
   );
 };

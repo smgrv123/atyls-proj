@@ -21,6 +21,8 @@ export type AuthContainerProps = {
       ZodError<signInFormData> | ZodError<signUpFormData> | undefined
     >
   >;
+  isModal?: boolean;
+  setIsModal?: () => void;
 };
 
 export type signUpFormData = {

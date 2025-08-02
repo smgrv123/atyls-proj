@@ -2,6 +2,7 @@
 
 import { AuthContainer } from "@/components/AuthContainer";
 import Toast from "@/components/ui/Toast";
+import { userStore } from "@/store/userStore";
 import {
   signInInputFields as inputFields,
   LocalStorageKeys,
@@ -17,13 +18,15 @@ export default function SignIn() {
 
   const [invalidCred, setinvalidCred] = useState(false);
   const router = useRouter();
+  const storeUser = userStore((getState) => getState.user);
+  const setUser = userStore((getState) => getState.setUser);
 
   useEffect(() => {
-    const user = localStorage.getItem(LocalStorageKeys.USER);
+    const user = localStorage.getItem(LocalStorageKeys.USER) || storeUser;
     if (user) {
       router.replace("/");
     }
-  }, [router]);
+  }, [router, storeUser]);
 
   const handleSubmit = (form: FormData) => {
     const userData = Object.fromEntries(form.entries()) as signInFormData;
@@ -39,6 +42,7 @@ export default function SignIn() {
       (userName === "test@user.com" && password === "testpass")
     ) {
       localStorage.setItem(LocalStorageKeys.USER, userName);
+      setUser(userName);
       router.replace("/");
     } else {
       setinvalidCred(true);

@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthContainer } from "@/components/AuthContainer";
+import { userStore } from "@/store/userStore";
 import {
   signUpInputFields as inputFields,
   LocalStorageKeys,
@@ -15,6 +16,8 @@ export default function SignUp() {
   const [error, setError] = useState<ZodError<signUpFormData> | undefined>();
 
   const router = useRouter();
+
+  const setUser = userStore((getState) => getState.setUser);
 
   useEffect(() => {
     const user = localStorage.getItem(LocalStorageKeys.USER);
@@ -32,6 +35,7 @@ export default function SignUp() {
       return;
     }
     localStorage.setItem(LocalStorageKeys.USER, userData.emailOrUsername);
+    setUser(userData.emailOrUsername);
     router.replace("/");
   };
 

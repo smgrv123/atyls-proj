@@ -1,21 +1,29 @@
 "use client";
 
+import { userStore } from "@/store/userStore";
 import { LocalStorageKeys } from "@/utils/constants";
 import { LogIn, Mouse } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/Button";
 
 const Nav = () => {
-  const pathName = usePathname();
   const [user, setuser] = useState<string>();
 
+  const pathName = usePathname();
+
+  const storeUser = userStore((getState) => getState.user);
+  const clearUser = userStore((getState) => getState.clearUser);
+
   useEffect(() => {
-    const user = localStorage.getItem(LocalStorageKeys.USER);
+    const user = localStorage.getItem(LocalStorageKeys.USER) || storeUser;
     if (user) {
       setuser(user);
+      return;
     }
-  }, []);
+    setuser("");
+  }, [user, storeUser]);
 
   return (
     <nav className="flex flex-row justify-between items-center pl-7 pr-5 py-3">
@@ -26,7 +34,9 @@ const Nav = () => {
         <span className="font-semibold">foo-rum</span>
       </div>
       {user ? (
-        <span className="font-semibold">{user}</span>
+        <Button variant={"primary"} size={"xs"} onClick={clearUser}>
+          <span className="font-semibold">{user}</span>
+        </Button>
       ) : pathName.includes("sign") ? (
         <Link href="/">
           <span className="font-semibold">Return to Home</span>

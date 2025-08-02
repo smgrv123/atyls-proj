@@ -19,6 +19,8 @@ const AuthContainer: FC<AuthContainerProps> = ({
   onSubmit,
   error,
   setError,
+  isModal = false,
+  setIsModal,
 }) => {
   return (
     <div className="bg-gray-200 px-2 pb-6 pt-2 rounded-2xl shadow-md flex flex-col items-center">
@@ -68,9 +70,21 @@ const AuthContainer: FC<AuthContainerProps> = ({
 
       <div className="mt-6 text-center text-gray-500 text-sm">
         Do not have an account?{" "}
-        <Link href={link} className="text-blue-600 font-medium hover:underline">
-          {linkText}
-        </Link>
+        {isModal && setIsModal ? (
+          <Button
+            onClick={setIsModal}
+            className="text-blue-600 font-medium hover:underline"
+          >
+            {linkText}
+          </Button>
+        ) : (
+          <Link
+            href={link}
+            className="text-blue-600 font-medium hover:underline"
+          >
+            {linkText}
+          </Link>
+        )}
       </div>
     </div>
   );
