@@ -1,21 +1,50 @@
-import { AuthContainer } from "@/components/AuthContainer";
+"use client";
 
-const inputFields = [
-  {
-    heading: "Email or username",
-    placeholder: "Enter your email or username",
-    type: "text",
-    fullWidth: true,
-  },
-  {
-    heading: "Password",
-    placeholder: "Enter your password",
-    type: "password",
-    fullWidth: true,
-  },
-];
+import { AuthContainer } from "@/components/AuthContainer";
+import Toast from "@/components/ui/Toast";
+import {
+  signInInputFields as inputFields,
+  LocalStorageKeys,
+} from "@/utils/constants";
+import { signInFormData } from "@/utils/types";
+import { signInSchema } from "@/utils/validation";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ZodError } from "zod";
 
 export default function SignIn() {
+  const [error, setError] = useState<ZodError<signInFormData> | undefined>();
+
+  const [invalidCred, setinvalidCred] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = localStorage.getItem(LocalStorageKeys.USER);
+    if (user) {
+      router.replace("/");
+    }
+  }, [router]);
+
+  const handleSubmit = (form: FormData) => {
+    const userData = Object.fromEntries(form.entries()) as signInFormData;
+    const { success, error } = signInSchema.safeParse(userData);
+    if (!success) {
+      setError(error);
+      return;
+    }
+    const userName = userData.emailOrUsername;
+    const password = userData.password;
+    if (
+      (userName === "demo@example.com" && password === "password123") ||
+      (userName === "test@user.com" && password === "testpass")
+    ) {
+      localStorage.setItem(LocalStorageKeys.USER, userName);
+      router.replace("/");
+    } else {
+      setinvalidCred(true);
+    }
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-1/3">
@@ -26,8 +55,18 @@ export default function SignIn() {
           buttonText="Sign In"
           link="/sign-up"
           linkText="Sign Up"
+          error={error}
+          setError={setError}
+          onSubmit={handleSubmit}
         />
       </div>
+      {invalidCred && (
+        <Toast
+          message="Invalid credentials. Please try again."
+          variant="error"
+          onClose={() => setinvalidCred(false)}
+        />
+      )}
     </div>
   );
 }

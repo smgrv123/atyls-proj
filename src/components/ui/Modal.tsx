@@ -13,7 +13,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   const [show, setShow] = useState(isOpen);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Handle entry/exit animation
   useEffect(() => {
     if (isOpen) {
       setShow(true);
@@ -24,7 +23,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     }
   }, [isOpen]);
 
-  // Close on ESC key
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -34,7 +32,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Close on overlay click
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === overlayRef.current) {
       onClose();

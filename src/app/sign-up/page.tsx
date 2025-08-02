@@ -1,27 +1,40 @@
-import { AuthContainer } from "@/components/AuthContainer";
+"use client";
 
-const inputFields = [
-  {
-    heading: "Email or username",
-    placeholder: "Enter your email or username",
-    type: "text",
-    fullWidth: true,
-  },
-  {
-    heading: "Password",
-    placeholder: "Enter your password",
-    type: "password",
-    fullWidth: true,
-  },
-  {
-    heading: "Repeat Password",
-    placeholder: "Enter your password again",
-    type: "password",
-    fullWidth: true,
-  },
-];
+import { AuthContainer } from "@/components/AuthContainer";
+import {
+  signUpInputFields as inputFields,
+  LocalStorageKeys,
+} from "@/utils/constants";
+import { signUpFormData } from "@/utils/types";
+import { signUpSchema } from "@/utils/validation";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ZodError } from "zod";
 
 export default function SignUp() {
+  const [error, setError] = useState<ZodError<signUpFormData> | undefined>();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = localStorage.getItem(LocalStorageKeys.USER);
+    if (user) {
+      router.replace("/");
+    }
+  }, [router]);
+
+  const handleSubmit = (form: FormData) => {
+    const userData = Object.fromEntries(form.entries()) as signUpFormData;
+
+    const { success, error } = signUpSchema.safeParse(userData);
+    if (!success) {
+      setError(error);
+      return;
+    }
+    localStorage.setItem(LocalStorageKeys.USER, userData.emailOrUsername);
+    router.replace("/");
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-1/3">
@@ -32,6 +45,9 @@ export default function SignUp() {
           buttonText="Sign Up"
           link="/sign-in"
           linkText="Sign In"
+          error={error}
+          setError={setError}
+          onSubmit={handleSubmit}
         />
       </div>
     </div>

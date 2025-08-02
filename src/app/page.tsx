@@ -3,36 +3,12 @@
 import CreatePost from "@/components/home/CreatePost";
 import PostCard from "@/components/home/PostCard";
 import Toast from "@/components/ui/Toast";
+import { initialUserMessages } from "@/utils/constants";
 import { useState } from "react";
 
 export default function Home() {
   const [postContent, setPostContent] = useState("");
-  const [userMessages, setUserMessages] = useState([
-    {
-      userName: "test",
-      message:
-        "Tempor laborum irure quis eiusmod amet dolor adipisicing. Do et reprehenderit aliqua commodo. Excepteur duis duis in esse officia excepteur qui officia ea et quis et cupidatat ad non. Ut voluptate cupidatat eu. Qui elit aliquip ea. Proident ipsum ut sunt.",
-      timestamp: "5 mins ago",
-    },
-    {
-      userName: "test2",
-      message:
-        "Tempor laborum irure quis eiusmod amet dolor adipisicing. Do et reprehenderit aliqua commodo. Excepteur duis duis in esse officia excepteur qui officia ea et quis et cupidatat ad non. Ut voluptate cupidatat eu. Qui elit aliquip ea. Proident ipsum ut sunt.",
-      timestamp: "5 mins ago",
-    },
-    {
-      userName: "test3",
-      message:
-        "Tempor laborum irure quis eiusmod amet dolor adipisicing. Do et reprehenderit aliqua commodo. Excepteur duis duis in esse officia excepteur qui officia ea et quis et cupidatat ad non. Ut voluptate cupidatat eu. Qui elit aliquip ea. Proident ipsum ut sunt.",
-      timestamp: "5 mins ago",
-    },
-    {
-      userName: "test4",
-      message:
-        "Tempor laborum irure quis eiusmod amet dolor adipisicing. Do et reprehenderit aliqua commodo. Excepteur duis duis in esse officia excepteur qui officia ea et quis et cupidatat ad non. Ut voluptate cupidatat eu. Qui elit aliquip ea. Proident ipsum ut sunt.",
-      timestamp: "5 mins ago",
-    },
-  ]);
+  const [userMessages, setUserMessages] = useState(initialUserMessages);
 
   const [toast, setToast] = useState<{
     message: string;

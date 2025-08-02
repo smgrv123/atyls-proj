@@ -3,20 +3,18 @@
 import Avatar from "@/assets/avatar.png";
 import { Heart, MessageCircle, Send, Smile } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { Button } from "../ui/Button";
 import Toast from "../ui/Toast";
 
 type PostCardProps = {
-  //   avatarUrl: string;
   userName: string;
   timestamp: string;
   emoji?: React.ReactNode;
   message: string;
 };
 
-const PostCard: React.FC<PostCardProps> = ({
-  //   avatarUrl,
+const PostCard: FC<PostCardProps> = ({
   userName,
   timestamp,
   emoji = <Smile size={20} />,

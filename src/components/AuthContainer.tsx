@@ -1,34 +1,25 @@
 "use client";
 
+import { AuthContainerProps } from "@/utils/types";
 import { LogIn } from "lucide-react";
 import Link from "next/link";
+import { FC } from "react";
 import { Button } from "./ui/Button";
 import { Heading } from "./ui/Heading";
 import { Input } from "./ui/Input";
 import { SubHeading } from "./ui/SubHeading";
 
-type AuthContainerProps = {
-  inputFields: {
-    heading: string;
-    placeholder: string;
-    type: string;
-    fullWidth: boolean;
-  }[];
-  heading: string;
-  subHeading: string;
-  link: string;
-  linkText: string;
-  buttonText: string;
-};
-
-const AuthContainer = ({
+const AuthContainer: FC<AuthContainerProps> = ({
   inputFields,
   heading,
   subHeading,
   link,
   linkText,
   buttonText,
-}: AuthContainerProps) => {
+  onSubmit,
+  error,
+  setError,
+}) => {
   return (
     <div className="bg-gray-200 px-2 pb-6 pt-2 rounded-2xl shadow-md flex flex-col items-center">
       <div className="bg-white px-6 py-5 rounded-2xl w-full">
@@ -45,17 +36,29 @@ const AuthContainer = ({
           className="w-full flex flex-col gap-2"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log("first");
+            const formData = new FormData(e.currentTarget);
+
+            onSubmit(formData);
           }}
         >
           {inputFields.map((field, index) => (
-            <Input
-              heading={field.heading}
-              placeholder={field.placeholder}
-              type={field.type}
-              key={index}
-              fullWidth={field.fullWidth}
-            />
+            <div key={index} className="flex flex-col gap-2">
+              <Input
+                heading={field.heading}
+                placeholder={field.placeholder}
+                type={field.type}
+                fullWidth={field.fullWidth}
+                name={field.name}
+                onChange={() => setError(undefined)}
+              />
+              {error?.issues
+                .filter((i) => i.path.includes(field.name))
+                .map((i) => (
+                  <p key={i.message} className="text-red-500 text-sm">
+                    {i.message}
+                  </p>
+                ))}
+            </div>
           ))}
           <Button type="submit" variant="submit" className="mt-2 w-full">
             {buttonText}
