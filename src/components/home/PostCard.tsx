@@ -1,8 +1,11 @@
+"use client";
+
 import Avatar from "@/assets/avatar.png";
 import { Heart, MessageCircle, Send, Smile } from "lucide-react";
 import Image from "next/image";
-import React from "react";
-import { Button } from "../commons/Button";
+import React, { useState } from "react";
+import { Button } from "../ui/Button";
+import Toast from "../ui/Toast";
 
 type PostCardProps = {
   //   avatarUrl: string;
@@ -19,6 +22,8 @@ const PostCard: React.FC<PostCardProps> = ({
   emoji = <Smile size={20} />,
   message,
 }) => {
+  const [toast, setToast] = useState(false);
+
   const cardIcons = [
     {
       icon: <Heart className="hover:text-red-500 cursor-pointer" size={16} />,
@@ -37,7 +42,7 @@ const PostCard: React.FC<PostCardProps> = ({
   ];
 
   return (
-    <div className="bg-gray-200 rounded-2xl shadow p-2 pb-4 flex flex-col gap-3 max-w-xl border border-gray-100">
+    <div className="bg-gray-200 rounded-2xl shadow p-2 pb-4 flex flex-col gap-3 w-2/5 border border-gray-100">
       <div className="bg-white rounded-md shadow-md">
         <div className="flex justify-center gap-3 py-4">
           <div className="flex flex-col gap-2 items-center flex-1/12">
@@ -65,11 +70,18 @@ const PostCard: React.FC<PostCardProps> = ({
       </div>
       <div className="flex gap-4 items-center pl-3">
         {cardIcons.map((item, index) => (
-          <Button key={index} size={"xs"}>
+          <Button key={index} size={"xs"} onClick={() => setToast(true)}>
             {item.icon}
           </Button>
         ))}
       </div>
+      {toast && (
+        <Toast
+          message="Functionality not available"
+          onClose={() => setToast(false)}
+          variant={"error"}
+        />
+      )}
     </div>
   );
 };

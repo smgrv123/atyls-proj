@@ -1,9 +1,4 @@
-import { Button } from "@/components/commons/Button";
-import { Heading } from "@/components/commons/Heading";
-import { Input } from "@/components/commons/Input";
-import { SubHeading } from "@/components/commons/SubHeading";
-import { LogIn } from "lucide-react";
-import Link from "next/link";
+import { AuthContainer } from "@/components/AuthContainer";
 
 const inputFields = [
   {
@@ -29,43 +24,15 @@ const inputFields = [
 export default function SignUp() {
   return (
     <div className="min-h-screen flex justify-center items-center">
-      <div className="bg-gray-200 px-2 pb-6 pt-2 w-1/3 rounded-2xl shadow-md flex flex-col items-center">
-        <div className="bg-white px-6 py-5 rounded-2xl w-full">
-          <div className="flex justify-center items-center">
-            <span className="bg-gray-200 rounded-full p-4">
-              <LogIn />
-            </span>
-          </div>
-          <div className="flex flex-col gap-2 my-4 text-center">
-            <Heading>Create an account to continue</Heading>
-            <SubHeading>
-              Create an account to access all the features on this app
-            </SubHeading>
-          </div>
-          <form className="w-full flex flex-col gap-2">
-            {inputFields.map((field, index) => (
-              <Input
-                heading={field.heading}
-                placeholder={field.placeholder}
-                type={field.type}
-                key={index}
-                fullWidth
-              />
-            ))}
-            <Button type="submit" variant="submit" className="mt-2 w-full">
-              Sign Up
-            </Button>
-          </form>
-        </div>
-        <div className="mt-6 text-center text-gray-500 text-sm">
-          Already have an account?
-          <Link
-            href="/sign-in"
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Sign In
-          </Link>
-        </div>
+      <div className="w-1/3">
+        <AuthContainer
+          inputFields={inputFields}
+          heading="Create an account to continue"
+          subHeading="Create an account to access all the features on this app"
+          buttonText="Sign Up"
+          link="/sign-in"
+          linkText="Sign In"
+        />
       </div>
     </div>
   );

@@ -1,0 +1,72 @@
+"use client";
+
+import { cn } from "@/utils/lib";
+import React, { useEffect, useRef, useState } from "react";
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+  const [show, setShow] = useState(isOpen);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  // Handle entry/exit animation
+  useEffect(() => {
+    if (isOpen) {
+      setShow(true);
+    } else {
+      // Wait for animation before unmounting
+      const timeout = setTimeout(() => setShow(false), 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [isOpen]);
+
+  // Close on ESC key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  // Close on overlay click
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === overlayRef.current) {
+      onClose();
+    }
+  };
+
+  if (!show) return null;
+
+  return (
+    <div
+      ref={overlayRef}
+      className={cn(
+        "fixed inset-0 z-50 flex items-center justify-center bg-black/60 transition-opacity duration-300",
+        isOpen ? "opacity-100" : "opacity-0",
+      )}
+      onMouseDown={handleOverlayClick}
+      aria-modal="true"
+      role="dialog"
+    >
+      <div
+        className={cn(
+          "w-1/3 relative transition-all duration-300 transform",
+          isOpen
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 translate-y-4",
+        )}
+        style={{ minWidth: 300 }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Modal;

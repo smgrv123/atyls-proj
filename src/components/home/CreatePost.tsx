@@ -16,12 +16,20 @@ import {
   Underline,
   Video,
 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "../commons/Button";
+import { FC } from "react";
+import { Button } from "../ui/Button";
 
-export default function CreatePost() {
-  const [value, setValue] = useState("");
+type CreatePostProps = {
+  postContent: string;
+  setPostContent: React.Dispatch<React.SetStateAction<string>>;
+  onSubmit: () => void;
+};
 
+const CreatePost: FC<CreatePostProps> = ({
+  postContent,
+  setPostContent,
+  onSubmit,
+}) => {
   const topBarIcons = [
     { icon: <Bold size={16} />, title: "Bold", selected: true },
     { icon: <Italic size={16} />, title: "Italic", selected: false },
@@ -70,8 +78,8 @@ export default function CreatePost() {
           className="flex-1 bg-inherit rounded-md text-sm resize-none border-none outline-none h-20"
           placeholder="How are you feeling today?"
           rows={2}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={postContent}
+          onChange={(e) => setPostContent(e.target.value)}
         />
       </div>
       <div className="flex items-center justify-between mt-2">
@@ -87,10 +95,12 @@ export default function CreatePost() {
             </div>
           ))}
         </div>
-        <Button size="sm" className="ml-2">
+        <Button size="sm" className="ml-2" onClick={onSubmit}>
           <SendHorizontal className="text-blue-500" />
         </Button>
       </div>
     </div>
   );
-}
+};
+
+export default CreatePost;

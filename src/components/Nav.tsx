@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 const Nav = () => {
   const pathName = usePathname();
-  console.log("pathanme", pathName);
 
   return (
     <nav className="flex flex-row justify-between items-center pl-7 pr-5 py-3">
