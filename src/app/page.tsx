@@ -1,35 +1,39 @@
-"use client";
+'use client';
 
-import { AuthModal } from "@/components/AuthModal";
-import CreatePost from "@/components/home/CreatePost";
-import PostCard from "@/components/home/PostCard";
-import Modal from "@/components/ui/Modal";
-import Toast from "@/components/ui/Toast";
-import { userStore } from "@/store/userStore";
-import { initialUserMessages, LocalStorageKeys } from "@/utils/constants";
-import { signInFormData, signUpFormData } from "@/utils/types";
-import { signInSchema, signUpSchema } from "@/utils/validation";
-import { useState } from "react";
-import { ZodError } from "zod";
+import { AuthModal } from '@/components/AuthModal';
+import CreatePost from '@/components/home/CreatePost';
+import PostCard from '@/components/home/PostCard';
+import Modal from '@/components/ui/Modal';
+import Toast from '@/components/ui/Toast';
+import { messageStore } from '@/store/messageStore';
+import { userStore } from '@/store/userStore';
+import { LocalStorageKeys } from '@/utils/constants';
+import { signInFormData, signUpFormData } from '@/utils/types';
+import { signInSchema, signUpSchema } from '@/utils/validation';
+import { useEffect, useState } from 'react';
+import { ZodError } from 'zod';
 
 export default function Home() {
-  const [postContent, setPostContent] = useState("");
-  const [userMessages, setUserMessages] = useState(initialUserMessages);
+  const [postContent, setPostContent] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [switchAuthModal, setSwitchAuthModal] = useState(true);
   const [invalidCred, setinvalidCred] = useState(false);
   const [error, setError] = useState<ZodError<signInFormData> | undefined>();
   const [toast, setToast] = useState<{
     message: string;
-    variant: "info" | "error" | "success";
+    variant: 'info' | 'error' | 'success';
     isOpen: boolean;
   }>({
-    message: "Post created successfully",
-    variant: "info",
+    message: 'Post created successfully',
+    variant: 'info',
     isOpen: false,
   });
+  const [user, setuser] = useState('');
 
+  const storeUser = userStore((getState) => getState.user);
   const setUser = userStore((getState) => getState.setUser);
+  const userMessages = messageStore((getState) => getState.messages);
+  const appendUserMessages = messageStore((getState) => getState.appendMessage);
 
   const handleSignInSubmit = (form: FormData) => {
     const userData = Object.fromEntries(form.entries()) as signInFormData;
@@ -41,8 +45,8 @@ export default function Home() {
     const userName = userData.emailOrUsername;
     const password = userData.password;
     if (
-      (userName === "demo@example.com" && password === "password123") ||
-      (userName === "test@user.com" && password === "testpass")
+      (userName === 'demo@example.com' && password === 'password123') ||
+      (userName === 'test@user.com' && password === 'testpass')
     ) {
       localStorage.setItem(LocalStorageKeys.USER, userName);
       setUser(userName);
@@ -65,7 +69,15 @@ export default function Home() {
     setOpenModal(false);
   };
 
-  console.log("fooooo");
+  useEffect(() => {
+    const user = localStorage.getItem(LocalStorageKeys.USER) || storeUser;
+    if (user) {
+      setuser(user);
+      return;
+    }
+    setuser('');
+  }, [storeUser, setUser]);
+
   return (
     <div
       className="min-h-screen flex flex-col gap-4 items-center justify-center"
@@ -81,32 +93,24 @@ export default function Home() {
         postContent={postContent}
         setPostContent={setPostContent}
         onSubmit={() => {
-          if (postContent.trim() === "") return;
-          setUserMessages((prev) => [
-            {
-              userName: "test",
-              message: postContent,
-              timestamp: "5 mins ago",
-            },
-            ...prev,
-          ]);
+          if (postContent.trim() === '') return;
+          appendUserMessages({
+            userName: user,
+            message: postContent,
+            timestamp: '5 mins ago',
+          });
           setToast({
-            message: "Post created successfully",
-            variant: "success",
+            message: 'Post created successfully',
+            variant: 'success',
             isOpen: true,
           });
-          setPostContent("");
+          setPostContent('');
         }}
       />
       {userMessages.map((item, index) => (
         <PostCard key={index} {...item} />
       ))}
-      {toast.isOpen && (
-        <Toast
-          onClose={() => setToast({ ...toast, isOpen: false })}
-          {...toast}
-        />
-      )}
+      {toast.isOpen && <Toast onClose={() => setToast({ ...toast, isOpen: false })} {...toast} />}
       <Modal isOpen={openModal}>
         <AuthModal
           switchAuthModal={switchAuthModal}

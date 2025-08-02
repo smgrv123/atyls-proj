@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { ZodError } from "zod";
+import { Dispatch, SetStateAction } from 'react';
+import { ZodError } from 'zod';
 
 export type AuthContainerProps = {
   inputFields: {
@@ -17,9 +17,7 @@ export type AuthContainerProps = {
   onSubmit: (form: FormData) => void;
   error: ZodError<signInFormData> | ZodError<signUpFormData> | undefined;
   setError: Dispatch<
-    SetStateAction<
-      ZodError<signInFormData> | ZodError<signUpFormData> | undefined
-    >
+    SetStateAction<ZodError<signInFormData> | ZodError<signUpFormData> | undefined>
   >;
   isModal?: boolean;
   setIsModal?: () => void;
@@ -39,4 +37,10 @@ export type signInFormData = {
 export type user = {
   emailOrUsername: string;
   password: string;
+};
+
+export type MessageType = {
+  userName: string;
+  message: string;
+  timestamp: string;
 };

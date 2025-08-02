@@ -1,16 +1,13 @@
-"use client";
+'use client';
 
-import { AuthContainer } from "@/components/AuthContainer";
-import { userStore } from "@/store/userStore";
-import {
-  signUpInputFields as inputFields,
-  LocalStorageKeys,
-} from "@/utils/constants";
-import { signUpFormData } from "@/utils/types";
-import { signUpSchema } from "@/utils/validation";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ZodError } from "zod";
+import { AuthContainer } from '@/components/AuthContainer';
+import { userStore } from '@/store/userStore';
+import { signUpInputFields as inputFields, LocalStorageKeys } from '@/utils/constants';
+import { signUpFormData } from '@/utils/types';
+import { signUpSchema } from '@/utils/validation';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ZodError } from 'zod';
 
 export default function SignUp() {
   const [error, setError] = useState<ZodError<signUpFormData> | undefined>();
@@ -22,7 +19,7 @@ export default function SignUp() {
   useEffect(() => {
     const user = localStorage.getItem(LocalStorageKeys.USER);
     if (user) {
-      router.replace("/");
+      router.replace('/');
     }
   }, [router]);
 
@@ -36,7 +33,7 @@ export default function SignUp() {
     }
     localStorage.setItem(LocalStorageKeys.USER, userData.emailOrUsername);
     setUser(userData.emailOrUsername);
-    router.replace("/");
+    router.replace('/');
   };
 
   return (

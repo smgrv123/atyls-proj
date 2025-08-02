@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { AuthContainerProps } from "@/utils/types";
-import { LogIn } from "lucide-react";
-import Link from "next/link";
-import { FC } from "react";
-import { Button } from "./ui/Button";
-import { Heading } from "./ui/Heading";
-import { Input } from "./ui/Input";
-import { SubHeading } from "./ui/SubHeading";
+import { AuthContainerProps } from '@/utils/types';
+import { LogIn } from 'lucide-react';
+import Link from 'next/link';
+import { FC } from 'react';
+import { Button } from './ui/Button';
+import { Heading } from './ui/Heading';
+import { Input } from './ui/Input';
+import { SubHeading } from './ui/SubHeading';
 
 const AuthContainer: FC<AuthContainerProps> = ({
   inputFields,
@@ -69,19 +69,13 @@ const AuthContainer: FC<AuthContainerProps> = ({
       </div>
 
       <div className="mt-6 text-center text-gray-500 text-sm">
-        Do not have an account?{" "}
+        Do not have an account?{' '}
         {isModal && setIsModal ? (
-          <Button
-            onClick={setIsModal}
-            className="text-blue-600 font-medium hover:underline"
-          >
+          <Button onClick={setIsModal} className="text-blue-600 font-medium hover:underline">
             {linkText}
           </Button>
         ) : (
-          <Link
-            href={link}
-            className="text-blue-600 font-medium hover:underline"
-          >
+          <Link href={link} className="text-blue-600 font-medium hover:underline">
             {linkText}
           </Link>
         )}

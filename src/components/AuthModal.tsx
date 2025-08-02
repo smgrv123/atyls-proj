@@ -1,8 +1,8 @@
-import { signInInputFields, signUpInputFields } from "@/utils/constants";
-import { signInFormData } from "@/utils/types";
-import { Dispatch, FC, SetStateAction } from "react";
-import { ZodError } from "zod";
-import { AuthContainer } from "./AuthContainer";
+import { signInInputFields, signUpInputFields } from '@/utils/constants';
+import { signInFormData } from '@/utils/types';
+import { Dispatch, FC, SetStateAction } from 'react';
+import { ZodError } from 'zod';
+import { AuthContainer } from './AuthContainer';
 
 type AuthModalType = {
   switchAuthModal: boolean;

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { cn } from "@/utils/lib";
+import { cn } from '@/utils/lib';
 import {
   Bold,
   CodeXml,
@@ -15,10 +15,10 @@ import {
   Trash2,
   Underline,
   Video,
-} from "lucide-react";
-import { FC, useState } from "react";
-import { Button } from "../ui/Button";
-import Toast from "../ui/Toast";
+} from 'lucide-react';
+import { FC, useState } from 'react';
+import { Button } from '../ui/Button';
+import Toast from '../ui/Toast';
 
 type CreatePostProps = {
   postContent: string;
@@ -27,30 +27,26 @@ type CreatePostProps = {
 };
 
 const topBarIcons = [
-  { icon: <Bold size={16} />, title: "Bold", selected: true },
-  { icon: <Italic size={16} />, title: "Italic", selected: false },
-  { icon: <Underline size={16} />, title: "Underline", selected: false },
-  { icon: <List size={16} />, title: "Bullet List", selected: false },
+  { icon: <Bold size={16} />, title: 'Bold', selected: true },
+  { icon: <Italic size={16} />, title: 'Italic', selected: false },
+  { icon: <Underline size={16} />, title: 'Underline', selected: false },
+  { icon: <List size={16} />, title: 'Bullet List', selected: false },
   {
     icon: <ListOrdered size={16} />,
-    title: "Numbered List",
+    title: 'Numbered List',
     selected: false,
   },
-  { icon: <Quote size={16} />, title: "Quote", selected: false },
-  { icon: <CodeXml size={16} />, title: "Code Block", selected: false },
+  { icon: <Quote size={16} />, title: 'Quote', selected: false },
+  { icon: <CodeXml size={16} />, title: 'Code Block', selected: false },
 ];
 
 const bottomBarIcons = [
-  { icon: <Plus size={16} />, title: "Attach", selected: true },
-  { icon: <Mic size={16} />, title: "Microphone", selected: false },
-  { icon: <Video size={16} />, title: "Camera", selected: false },
+  { icon: <Plus size={16} />, title: 'Attach', selected: true },
+  { icon: <Mic size={16} />, title: 'Microphone', selected: false },
+  { icon: <Video size={16} />, title: 'Camera', selected: false },
 ];
 
-const CreatePost: FC<CreatePostProps> = ({
-  postContent,
-  setPostContent,
-  onSubmit,
-}) => {
+const CreatePost: FC<CreatePostProps> = ({ postContent, setPostContent, onSubmit }) => {
   const [toast, settoast] = useState(false);
 
   return (
@@ -61,13 +57,10 @@ const CreatePost: FC<CreatePostProps> = ({
             <option>Paragraph</option>
           </select>
           {topBarIcons.map((item, index) => (
-            <div
-              key={index}
-              className={cn(item.selected && "bg-white rounded-sm")}
-            >
+            <div key={index} className={cn(item.selected && 'bg-white rounded-sm')}>
               <Button
                 title={item.title}
-                size={"sm"}
+                size={'sm'}
                 className="align-middle"
                 onClick={() => settoast(true)}
               >
@@ -93,13 +86,10 @@ const CreatePost: FC<CreatePostProps> = ({
       <div className="flex items-center justify-between mt-2">
         <div className="flex gap-2 text-xl text-gray-400">
           {bottomBarIcons.map((item, index) => (
-            <div
-              key={index}
-              className={cn(item.selected && "bg-gray-200 rounded-sm")}
-            >
+            <div key={index} className={cn(item.selected && 'bg-gray-200 rounded-sm')}>
               <Button
                 title={item.title}
-                size={"sm"}
+                size={'sm'}
                 className="align-middle"
                 onClick={() => settoast(true)}
               >
@@ -116,7 +106,7 @@ const CreatePost: FC<CreatePostProps> = ({
         <Toast
           message="Functionality not available"
           onClose={() => settoast(false)}
-          variant={"error"}
+          variant={'error'}
         />
       )}
     </div>

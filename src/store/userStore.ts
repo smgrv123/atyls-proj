@@ -1,5 +1,5 @@
-import { LocalStorageKeys } from "@/utils/constants";
-import { create } from "zustand";
+import { LocalStorageKeys } from '@/utils/constants';
+import { create } from 'zustand';
 
 type UserStore = {
   user: string | undefined;

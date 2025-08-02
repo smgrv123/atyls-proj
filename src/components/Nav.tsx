@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { userStore } from "@/store/userStore";
-import { LocalStorageKeys } from "@/utils/constants";
-import { LogIn, Mouse } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Button } from "./ui/Button";
+import { userStore } from '@/store/userStore';
+import { LocalStorageKeys } from '@/utils/constants';
+import { LogIn, Mouse } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Button } from './ui/Button';
 
 const Nav = () => {
   const [user, setuser] = useState<string>();
@@ -14,16 +14,20 @@ const Nav = () => {
   const pathName = usePathname();
 
   const storeUser = userStore((getState) => getState.user);
+  const setStoreUser = userStore((getState) => getState.setUser);
   const clearUser = userStore((getState) => getState.clearUser);
 
   useEffect(() => {
     const user = localStorage.getItem(LocalStorageKeys.USER) || storeUser;
     if (user) {
+      if (!storeUser) {
+        setStoreUser(user);
+      }
       setuser(user);
       return;
     }
-    setuser("");
-  }, [user, storeUser]);
+    setuser('');
+  }, [user, storeUser, setStoreUser]);
 
   return (
     <nav className="flex flex-row justify-between items-center pl-7 pr-5 py-3">
@@ -34,10 +38,10 @@ const Nav = () => {
         <span className="font-semibold">foo-rum</span>
       </div>
       {user ? (
-        <Button variant={"primary"} size={"xs"} onClick={clearUser}>
+        <Button variant={'primary'} size={'xs'} onClick={clearUser}>
           <span className="font-semibold">{user}</span>
         </Button>
-      ) : pathName.includes("sign") ? (
+      ) : pathName.includes('sign') ? (
         <Link href="/">
           <span className="font-semibold">Return to Home</span>
         </Link>

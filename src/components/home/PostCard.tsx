@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Avatar from "@/assets/avatar.png";
-import { Heart, MessageCircle, Send, Smile } from "lucide-react";
-import Image from "next/image";
-import { FC, useState } from "react";
-import { Button } from "../ui/Button";
-import Toast from "../ui/Toast";
+import Avatar from '@/assets/avatar.png';
+import { Heart, MessageCircle, Send, Smile } from 'lucide-react';
+import Image from 'next/image';
+import { FC, useState } from 'react';
+import { Button } from '../ui/Button';
+import Toast from '../ui/Toast';
 
 type PostCardProps = {
   userName: string;
@@ -27,12 +27,7 @@ const PostCard: FC<PostCardProps> = ({
       icon: <Heart className="hover:text-red-500 cursor-pointer" size={16} />,
     },
     {
-      icon: (
-        <MessageCircle
-          className="hover:text-blue-500 cursor-pointer"
-          size={16}
-        />
-      ),
+      icon: <MessageCircle className="hover:text-blue-500 cursor-pointer" size={16} />,
     },
     {
       icon: <Send className="hover:text-green-500 cursor-pointer" size={16} />,
@@ -53,22 +48,18 @@ const PostCard: FC<PostCardProps> = ({
           </div>
           <div className="flex flex-col gap-2 flex-11/12">
             <div className="flex flex-col">
-              <span className="font-semibold text-gray-900 text-base">
-                {userName}
-              </span>
+              <span className="font-semibold text-gray-900 text-base">{userName}</span>
               <span className="text-xs text-gray-400">{timestamp}</span>
             </div>
             <div className="flex items-start gap-3">
-              <span className="text-gray-800 text-sm leading-relaxed">
-                {message}
-              </span>
+              <span className="text-gray-800 text-sm leading-relaxed">{message}</span>
             </div>
           </div>
         </div>
       </div>
       <div className="flex gap-4 items-center pl-3">
         {cardIcons.map((item, index) => (
-          <Button key={index} size={"xs"} onClick={() => setToast(true)}>
+          <Button key={index} size={'xs'} onClick={() => setToast(true)}>
             {item.icon}
           </Button>
         ))}
@@ -77,7 +68,7 @@ const PostCard: FC<PostCardProps> = ({
         <Toast
           message="Functionality not available"
           onClose={() => setToast(false)}
-          variant={"error"}
+          variant={'error'}
         />
       )}
     </div>

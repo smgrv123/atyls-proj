@@ -1,17 +1,14 @@
-"use client";
+'use client';
 
-import { AuthContainer } from "@/components/AuthContainer";
-import Toast from "@/components/ui/Toast";
-import { userStore } from "@/store/userStore";
-import {
-  signInInputFields as inputFields,
-  LocalStorageKeys,
-} from "@/utils/constants";
-import { signInFormData } from "@/utils/types";
-import { signInSchema } from "@/utils/validation";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ZodError } from "zod";
+import { AuthContainer } from '@/components/AuthContainer';
+import Toast from '@/components/ui/Toast';
+import { userStore } from '@/store/userStore';
+import { signInInputFields as inputFields, LocalStorageKeys } from '@/utils/constants';
+import { signInFormData } from '@/utils/types';
+import { signInSchema } from '@/utils/validation';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ZodError } from 'zod';
 
 export default function SignIn() {
   const [error, setError] = useState<ZodError<signInFormData> | undefined>();
@@ -24,7 +21,7 @@ export default function SignIn() {
   useEffect(() => {
     const user = localStorage.getItem(LocalStorageKeys.USER) || storeUser;
     if (user) {
-      router.replace("/");
+      router.replace('/');
     }
   }, [router, storeUser]);
 
@@ -38,12 +35,12 @@ export default function SignIn() {
     const userName = userData.emailOrUsername;
     const password = userData.password;
     if (
-      (userName === "demo@example.com" && password === "password123") ||
-      (userName === "test@user.com" && password === "testpass")
+      (userName === 'demo@example.com' && password === 'password123') ||
+      (userName === 'test@user.com' && password === 'testpass')
     ) {
       localStorage.setItem(LocalStorageKeys.USER, userName);
       setUser(userName);
-      router.replace("/");
+      router.replace('/');
     } else {
       setinvalidCred(true);
     }
